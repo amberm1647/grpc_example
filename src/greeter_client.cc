@@ -22,11 +22,8 @@
 
 #include <grpcpp/grpcpp.h>
 
-#ifdef BAZEL_BUILD
-#include "examples/protos/helloworld.grpc.pb.h"
-#else
 #include "../proto/helloworld.grpc.pb.h"
-#endif
+#include "greeter_client.h"
 
 using grpc::Channel;
 using grpc::ClientContext;
@@ -71,14 +68,14 @@ class GreeterClient {
   std::unique_ptr<Greeter::Stub> stub_;
 };
 
-int main(int argc, char** argv) {
+int CLIENT_API main(int argc, char** argv) {
   // Instantiate the client. It requires a channel, out of which the actual RPCs
   // are created. This channel models a connection to an endpoint specified by
   // the argument "--target=" which is the only expected argument.
   // We indicate that the channel isn't authenticated (use of
   // InsecureChannelCredentials()).
-  std::string target_str;
-  std::string arg_str("--target");
+  std::string target_str = "10.165.125.33:22";
+  /*std::string arg_str("--target");
   if (argc > 1) {
     std::string arg_val = argv[1];
     size_t start_pos = arg_val.find(arg_str);
@@ -96,7 +93,7 @@ int main(int argc, char** argv) {
     }
   } else {
     target_str = "localhost:50051";
-  }
+  }*/
   GreeterClient greeter(grpc::CreateChannel(
       target_str, grpc::InsecureChannelCredentials()));
   std::string user("world");
