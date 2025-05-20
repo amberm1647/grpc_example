@@ -68,14 +68,29 @@ class GreeterClient {
   std::unique_ptr<Greeter::Stub> stub_;
 };
 
-std::string CLIENT_API get_reply() {
+std::string CLIENT_API get_reply(const char* target_addr) {
   // Instantiate the client. It requires a channel, out of which the actual RPCs
   // are created. This channel models a connection to an endpoint specified by
   // the argument "--target=" which is the only expected argument.
   // We indicate that the channel isn't authenticated (use of
   // InsecureChannelCredentials()).
-  std::string target_str = "10.165.125.33:22";
-  /*std::string arg_str("--target");
+    
+  std::string target_str = target_addr;
+  std::cout << "received target addr: " << target_addr << std::endl;
+
+  GreeterClient greeter(grpc::CreateChannel(
+      target_str, grpc::InsecureChannelCredentials()));
+  std::string user("world");
+  std::string reply = greeter.SayHello(user);
+  //std::cout << "Greeter received: " << reply << std::endl;
+
+  return reply;
+}
+
+
+int main(int argc, char** argv) {
+  std::string target_str("0.0.0.0:22");
+  std::string arg_str("--target");
   if (argc > 1) {
     std::string arg_val = argv[1];
     size_t start_pos = arg_val.find(arg_str);
@@ -93,14 +108,10 @@ std::string CLIENT_API get_reply() {
     }
   } else {
     target_str = "localhost:50051";
-  }*/
-  GreeterClient greeter(grpc::CreateChannel(
-      target_str, grpc::InsecureChannelCredentials()));
-  std::string user("world");
-  std::string reply = greeter.SayHello(user);
-  //std::cout << "Greeter received: " << reply << std::endl;
+  }
 
-  //const char* reply_c = reply.c_str();
+  std::string reply = get_reply(target_str.data());
+  std::cout << "Greeter received: " << reply << std::endl;
 
-  return reply;
+  return 0;
 }
