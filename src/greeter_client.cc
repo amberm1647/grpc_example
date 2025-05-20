@@ -68,7 +68,7 @@ class GreeterClient {
   std::unique_ptr<Greeter::Stub> stub_;
 };
 
-int CLIENT_API main(int argc, char** argv) {
+std::string CLIENT_API get_reply() {
   // Instantiate the client. It requires a channel, out of which the actual RPCs
   // are created. This channel models a connection to an endpoint specified by
   // the argument "--target=" which is the only expected argument.
@@ -98,7 +98,9 @@ int CLIENT_API main(int argc, char** argv) {
       target_str, grpc::InsecureChannelCredentials()));
   std::string user("world");
   std::string reply = greeter.SayHello(user);
-  std::cout << "Greeter received: " << reply << std::endl;
+  //std::cout << "Greeter received: " << reply << std::endl;
 
-  return 0;
+  //const char* reply_c = reply.c_str();
+
+  return reply;
 }
