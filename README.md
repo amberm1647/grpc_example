@@ -4,14 +4,6 @@ A simple hello world project to test a connection between a gRPC client running 
 
 # Setup
 
-## Repository
-
-```
-git clone https://github.com/amberm1647/ghost_gpu_grpc.git --recurse-submodules
-```
-
-Follow the "Preparation" steps at the DepthAnything readme to install the necessary Python packages and model files: https://github.com/DepthAnything/Depth-Anything-V2#usage
-
 ## Install gRPC using vcpkg
 
 Run in Powershell:
